@@ -25,7 +25,6 @@ function templateHTML(body) {
             <h2>게시판</h2>
             <div class="Menu">
                 <a href="/write">글쓰기</a>
-                <span>글 목록보기</span>
             </div>
         </div>
         ${body}
@@ -61,7 +60,7 @@ var app = http.createServer(function(request,response){
             })
         } else {
         fs.readFile(`data/${title}`, 'utf8', function(err, data) {
-            var template = templateHTML([]);//,`<p>${title}</p>${data}`,`<a href="/update?id=${title}">update</a> <a href="/delete?id=${title}">delete</a>`);
+            var template = templateHTML(`<p>${title}</p>${data}<p><a href="/update?id=${title}">update</a> <a href="/delete?id=${title}">delete</a></p>`);
             response.writeHead(200);
             response.end(template);
         });
@@ -98,20 +97,20 @@ var app = http.createServer(function(request,response){
         });
      } else if(pathName === '/update') {
         fs.readFile(`data/${title}`, 'utf8', function(err, data) {
-        //     var template = templateHTML([]);,`<p>${title}</p>${data}`,`
-        //     <form action="/diary_update" method="post">
-        //     <input type="hidden" name="id" value="${title}">
-        //     <p>
-        //         <input type="text" name="title" value="${title}">
-        //     </p>
-        //     <p>
-        //         <textarea name="description">${data}</textarea>
-        //     </p>
-        //     <p>
-        //         <input type="submit"></input>
-        //     </p>
-        //     </form>
-        //    `);
+            var template = templateHTML(`<p>${title}</p>${data}
+            <form action="/diary_update" method="post">
+            <input type="hidden" name="id" value="${title}">
+            <p>
+                <input type="text" name="title" value="${title}">
+            </p>
+            <p>
+                <textarea name="description">${data}</textarea>
+            </p>
+            <p>
+                <input type="submit"></input>
+            </p>
+            </form>
+           `);
             response.writeHead(200);
             response.end(template);
         });
@@ -135,15 +134,15 @@ var app = http.createServer(function(request,response){
         });
     } else if(pathName === '/delete') {
         fs.readFile(`data/${title}`, 'utf8', function(err, data) {
-             var template = templateHTML([]);//,`<p>${title}</p>${data}`,`
-        //     <form action="/diary_delete" method="post">
-        //     <input type="hidden" name="id" value="${title}">
-        //     <p>삭제하시나요?</p>
-        //     <p>
-        //         <input type="submit"></input>
-        //     </p>
-        //     </form>
-        //    `);
+             var template = templateHTML(`<p>${title}</p>${data}
+            <form action="/diary_delete" method="post">
+            <input type="hidden" name="id" value="${title}">
+            <p>삭제하시나요?</p>
+            <p>
+                <input type="submit"></input>
+            </p>
+            </form>
+           `);
             response.writeHead(200);
             response.end(template);
         });
