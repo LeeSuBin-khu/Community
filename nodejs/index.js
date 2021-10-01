@@ -24,7 +24,7 @@ function templateHTML(body) {
         <div class="Header">
             <h2>게시판</h2>
             <div class="Menu">
-                <span>글쓰기</span>
+                <a href="/write">글쓰기</a>
                 <span>글 목록보기</span>
             </div>
         </div>
@@ -67,18 +67,18 @@ var app = http.createServer(function(request,response){
         });
     }
      } else if(pathName === '/write') {
-        // var template = templateHTML([]);,`
-        // <form action="/diary_read" method="post">
-        //     <p>
-        //     <input type="text" name="title">
-        //     </p>
-        //     <p>
-        //         <textarea name="description"></textarea>
-        //     </p>
-        //     <p>
-        //         <input type="submit"></input>
-        //     </p>
-        // </form>`);
+        var template = templateHTML(`
+        <form action="/diary_read" method="post">
+            <p>
+            <input type="text" name="title">
+            </p>
+            <p>
+                <textarea name="description"></textarea>
+            </p>
+            <p>
+                <input type="submit"></input>
+            </p>
+        </form>`);
         response.writeHead(200);
         response.end(template);
      } else if(pathName === '/diary_read') {
