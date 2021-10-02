@@ -14,20 +14,51 @@ function templateHTML(body) {
         <title>게시판</title>
         <style>
         .Header {
+            background-image: url('title.jpeg');
+            height: 200px; 
+            width: 400px;
             display: flex;
             flex-direction: row;
+            align-items: center;
+            justify-content: center;
         }
-        
+        .Title {
+            
+        }
+        .Menu {
+            text-align: right;
+            margin: 400px;
+        }
+        .Board {
+            margin: 10px 5px 50px 100px;
+        }
+        table{
+            border : 1px solid black;
+            border-collapse : collapse;
+            width: 60%;
+            margin: auto;
+            text-align: center;
+        }
+         
+        td,th{
+            border : 1px solid black;
+            width : 100px;
+            height : 30px;
+        }
         </style>
     </head>
     <body style="margin:0; padding:0;">
-        <div class="Header">
-            <h2>게시판</h2>
-            <div class="Menu">
-                <a href="/write">글쓰기</a>
+    <div class = "Board">
+        <div class="Header" style= "background-image: url('title.jpeg');">
+            <div class="Title">
+                <h2>게시판</h2>
             </div>
         </div>
         ${body}
+        <div class="Menu">
+            <a href="/write">글쓰기</a>
+        </div>
+    </div>
     </body>
     </html>`;
 }
@@ -46,15 +77,22 @@ var app = http.createServer(function(request,response){
      if(pathName === '/') {
         if(queryData.id === undefined) {
             fs.readdir('./data', function(error, filelist) {
-                var data = "giLog:)";
-                var list = '<ul>';
+                var list = '';
                 var i =0;
                 while(i<filelist.length){
-                    list=list+`<li><a href="/?id=${filelist[i]}">${filelist[i]}</a></li>`
+                    list=list+`<tr><td><a href="/?id=${filelist[i]}">${filelist[i]}</a></td>`
                     i=i+1;
+                    list=list+'</tr>';
             }
-            list=list+'</ul>';
-            var template = templateHTML(list);//, `<p>${title}</p>${data}`, `<a href="/write">write</a>`);
+            var template = templateHTML(`
+            <table border="1">
+            <thead>
+                <th>제목</th>
+            </thead>
+            <tbody>
+                ${list}
+            </tbody>
+            </table>`);//, `<p>${title}</p>${data}`, `<a href="/write">write</a>`);
             response.writeHead(200);
             response.end(template);
             })
@@ -69,10 +107,10 @@ var app = http.createServer(function(request,response){
         var template = templateHTML(`
         <form action="/diary_read" method="post">
             <p>
-            <input type="text" name="title">
+            <input type="text" name="title" placeholder="제목">
             </p>
             <p>
-                <textarea name="description"></textarea>
+                <textarea name="description" placeholder="내용을 입력하세요"></textarea>
             </p>
             <p>
                 <input type="submit"></input>
@@ -101,10 +139,10 @@ var app = http.createServer(function(request,response){
             <form action="/diary_update" method="post">
             <input type="hidden" name="id" value="${title}">
             <p>
-                <input type="text" name="title" value="${title}">
+                <input type="text" name="title" value="${title}" placeholder="제목">
             </p>
             <p>
-                <textarea name="description">${data}</textarea>
+                <textarea name="description" placeholder="내용을 입력하세요">${data}</textarea>
             </p>
             <p>
                 <input type="submit"></input>
