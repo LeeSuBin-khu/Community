@@ -48,7 +48,8 @@ function templateHTML(body) {
         }
         .Menu {
             text-align: right;
-            margin: 400px;
+            margin: 100px;
+            margin-right: 20%;
         }
         table{
             border-spacing: 10px;
@@ -81,7 +82,6 @@ function templateHTML(body) {
             font-weight: lighter;
             border-bottom : 5px solid #0e706f;
             border-collapse : collapse;
-            background-color: ;
         }
         a {
             text-decoration: none;
@@ -112,6 +112,42 @@ function templateHTML(body) {
             font-size: 110%;
             color: #0e706f;
         }
+        .Create {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .ititle {
+            background-color:transparent;
+            border: none;
+            font-family: san-serif ;
+            font-weight: lighter;
+            font-size: 90%;
+        }
+        .idescription {
+            background-color:transparent;
+            border: none;
+            font-family: san-serif ;
+            font-weight: lighter;
+            font-size: 90%;
+        }
+        .create-btn {
+            background-color:transparent;
+            border: none;
+            font-family: san-serif ;
+            font-weight: lighter;
+            font-size: 90%;
+            color: #0e706f;
+            margin-top: 3%;
+            margin-bottom: 3%;
+        }
+        .Read {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
         </style>
     </head>
     <body style="margin:0; padding:0;">
@@ -127,11 +163,7 @@ function templateHTML(body) {
                 <span id="title2">board</span>
                 <span id="date">October 3rd, 2021.</span>
             </div>
-        
         ${body}
-        <div class="Menu">
-            <a href="/write">글쓰기</a>
-        </div>
     </div>
     </body>
     </html>`;
@@ -166,29 +198,32 @@ var app = http.createServer(function(request,response){
             <tbody>
                 ${list}
             </tbody>
-            </table>`);//, `<p>${title}</p>${data}`, `<a href="/write">write</a>`);
+            </table>
+            <div class="Menu">
+                <a href="/write">Write.</a>
+            </div>`);//, `<p>${title}</p>${data}`, `<a href="/write">write</a>`);
             response.writeHead(200);
             response.end(template);
             })
         } else {
         fs.readFile(`data/${title}`, 'utf8', function(err, data) {
-            var template = templateHTML(`<p>${title}</p>${data}<p><a href="/update?id=${title}">update</a> <a href="/delete?id=${title}">delete</a></p>`);
+            var template = templateHTML(`<table><thead><th>${title}</thead></th><tr><td>${data}</tr></td></table><div class="Read"><a href="/update?id=${title}" >Update  |</a><a href="/delete?id=${title}">|  Delete</a></p></div>`);
             response.writeHead(200);
             response.end(template);
         });
     }
      } else if(pathName === '/write') {
         var template = templateHTML(`
-        <form action="/diary_read" method="post">
-            <p>
-            <input type="text" name="title" placeholder="제목">
-            </p>
-            <p>
-                <textarea name="description" placeholder="내용을 입력하세요"></textarea>
-            </p>
-            <p>
-                <input type="submit"></input>
-            </p>
+        <form class="Create" action="/diary_read" method="post">
+        <table>
+        <tr><td>
+            <input class="ititle" type="text" name="title" placeholder="title"><br>
+        </td></tr>
+        <tr><td>
+            <textarea class="idescription" name="description" placeholder="your story"></textarea>
+        </td></tr>
+        </table>
+            <input class="create-btn" type="submit" value="Submit."></input>
         </form>`);
         response.writeHead(200);
         response.end(template);
@@ -209,18 +244,18 @@ var app = http.createServer(function(request,response){
         });
      } else if(pathName === '/update') {
         fs.readFile(`data/${title}`, 'utf8', function(err, data) {
-            var template = templateHTML(`<p>${title}</p>${data}
-            <form action="/diary_update" method="post">
+            var template = templateHTML(`
+            <form class="Create" action="/diary_update" method="post">
             <input type="hidden" name="id" value="${title}">
-            <p>
-                <input type="text" name="title" value="${title}" placeholder="제목">
-            </p>
-            <p>
-                <textarea name="description" placeholder="내용을 입력하세요">${data}</textarea>
-            </p>
-            <p>
-                <input type="submit"></input>
-            </p>
+            <table>
+            <tr><td>
+                <input class="ititle" type="text" name="title" value="${title}" placeholder="제목">
+            </td></tr>
+            <tr><td>
+                <textarea class="idescription" name="description" placeholder="내용을 입력하세요">${data}</textarea>
+            </td></tr>
+            </table>
+                <input class="create-btn" type="submit" value="Submit"></input>
             </form>
            `);
             response.writeHead(200);
@@ -239,20 +274,18 @@ var app = http.createServer(function(request,response){
             fs.rename(`data/${id}`,`data/${title}`, function(error){
                 fs.writeFile(`data/${title}`, description, 'utf8',
                 function(err) {
-                    response.writeHead(302, {Location: `/?id=${title}`});
+                    response.writeHead(302, {Location: `/`});
                     response.end();
                 })
             })
         });
     } else if(pathName === '/delete') {
         fs.readFile(`data/${title}`, 'utf8', function(err, data) {
-             var template = templateHTML(`<p>${title}</p>${data}
-            <form action="/diary_delete" method="post">
+             var template = templateHTML(`
+            <form class="Create" action="/diary_delete" method="post">
             <input type="hidden" name="id" value="${title}">
-            <p>삭제하시나요?</p>
-            <p>
-                <input type="submit"></input>
-            </p>
+            <p style="font-size: 200%; color: #0e706f;">Delete?</p>
+                <input class="create-btn" type="submit" value="Submit"></input>
             </form>
            `);
             response.writeHead(200);
@@ -273,7 +306,7 @@ var app = http.createServer(function(request,response){
             var id = post.id;
             fs.unlink(`data/${id}`,
             function(err) {
-                response.writeHead(302, {Location: `/?id=${id}`});
+                response.writeHead(302, {Location: `/`});
                 response.end('success');
             })
         });
