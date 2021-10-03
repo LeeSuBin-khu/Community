@@ -1,0 +1,29 @@
+- 표 간격
+https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=pjh445&logNo=220008543951
+
+-자간
+https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=kongjuphone&logNo=220311773048
+
+-a태그 선 없애기
+https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=demonic3540&logNo=221242590496
+
+-flex
+https://jhnyang.tistory.com/170
+
+-input 아래 밑줄
+https://ekorea.tistory.com/122
+
+-placeholder
+https://www.codingfactory.net/10755
+
+-input submit value
+https://www.w3schools.com/css/tryit.asp?filename=trycss_form_button
+
+-text 밑줄
+border-bottom
+
+-git ignore
+https://zel0rd.tistory.com/140
+
+-git
+https://sabarada.tistory.com/75
