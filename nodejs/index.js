@@ -13,47 +13,121 @@ function templateHTML(body) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>게시판</title>
         <style>
+        body {
+            background-color: #e7cdca;
+        }
         .Header {
-            background-image: url('title.jpeg');
-            height: 200px; 
-            width: 400px;
+            color: #0e706f;
             display: flex;
             flex-direction: row;
-            align-items: center;
-            justify-content: center;
+            align-items: right;
+            justify-content: right;
         }
-        .Title {
-            
+        .Title1 {
+            margin-right: 200px;
+            margin-top: 90px;
+            line-height: 30px;
+            text-align:right;
+        }
+        #title1 {
+            font-family: Georgia, serif ;
+            font-weight: normal;
+            font-size: 300%;
+        }
+        #sub-title1 {
+            font-family: san-serif ;
+            font-weight: lighter;
+            font-size: 110%;
+            border-bottom: 4px solid #0e706f;
+            padding-bottom:5px;
+        }
+        #sub-title2 {
+            font-family: san-serif ;
+            font-weight: lighter;
+            font-size: 110%;
         }
         .Menu {
             text-align: right;
             margin: 400px;
         }
-        .Board {
-            margin: 10px 5px 50px 100px;
-        }
         table{
-            border : 1px solid black;
+            border-spacing: 10px;
+            border-bottom : 1px solid #0e706f;
             border-collapse : collapse;
             width: 60%;
             margin: auto;
-            text-align: center;
+            margin-top: 3%;
         }
          
-        td,th{
-            border : 1px solid black;
+        td,th {
+            margin-left: 300px;
             width : 100px;
             height : 30px;
+        }
+        th {
+            padding: 10px;
+            font-family: san-serif ;
+            font-weight: lighter;
+            font-size: 130%;
+            letter-spacing : 1px;
+            background-color: #0e706f;
+            color: #b5b3ab;            ;
+            text-align: left;
+        }
+        td {
+            padding: 20px 0px 50px 30px;
+            font-size: 120%;
+            font-family: san-serif ;
+            font-weight: lighter;
+            border-bottom : 5px solid #0e706f;
+            border-collapse : collapse;
+            background-color: ;
+        }
+        a {
+            text-decoration: none;
+            color: #0e706f;
+        }
+        .Title2 {
+            margin-right: 70px;
+            margin-top: 50px;
+            line-height: 30px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+            justify-content: left;
+            margin-left: 300px;
+            text-align: left;
+            line-height: 50px;
+        }
+        #title2 {
+            font-family: Georgia, serif ;
+            font-weight: normal;
+            font-size: 300%;
+            color: #0e706f;
+        }
+        #date {
+            font-family: san-serif ;
+            font-weight: lighter;
+            font-size: 110%;
+            color: #0e706f;
         }
         </style>
     </head>
     <body style="margin:0; padding:0;">
     <div class = "Board">
         <div class="Header" style= "background-image: url('title.jpeg');">
-            <div class="Title">
-                <h2>게시판</h2>
+            <div class="Title1">
+                <span id="title1">community</span><br>
+                <span id="sub-title1">conversation free, talking, & smile</span><br>
+                <span id="sub-title2">2021 camellia 174, 12173.</span>
             </div>
         </div>
+            <div class="Title2">
+                <span id="title2">board</span>
+                <span id="date">October 3rd, 2021.</span>
+            </div>
+        
         ${body}
         <div class="Menu">
             <a href="/write">글쓰기</a>
@@ -85,9 +159,9 @@ var app = http.createServer(function(request,response){
                     list=list+'</tr>';
             }
             var template = templateHTML(`
-            <table border="1">
+            <table>
             <thead>
-                <th>제목</th>
+                <th>TITLE</th>
             </thead>
             <tbody>
                 ${list}
